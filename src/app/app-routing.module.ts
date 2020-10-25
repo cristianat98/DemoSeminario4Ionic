@@ -19,9 +19,18 @@ const routes: Routes = [
           {
             path: "chat",
             loadChildren: () => import('./home/detalle/chat/chat.module').then(m => m.ChatPageModule)
+          },
+          {
+            path: "modificar",
+            loadChildren: () => import('./home/detalle/modificar/modificar.module').then(m => m.ModificarPageModule)
           }
         ]
+      },
+      {
+        path: "registrar",
+        loadChildren: () => import('./home/registrar/registrar.module').then(m => m.RegistrarPageModule)
       }]
+    
   },
   {
     path: '',

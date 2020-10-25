@@ -15,12 +15,10 @@ export class DetallePage implements OnInit {
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(paramMap => {
-      //redirect
       const recipeId = paramMap.get('alumnoId');
       this.alumnoservicio.getalumno(recipeId);
       this.alumno = this.alumnoservicio.getalumno(recipeId);
   })
-  
   } 
 
   async deleteAlumno(){
@@ -34,7 +32,7 @@ export class DetallePage implements OnInit {
         {
           text: 'Sí',
           handler: () => {
-            this.alumnoservicio.deletealumno(this.alumno.id);
+            this.alumnoservicio.deletealumno(this.alumno._id);
             this.router.navigate(['/alumnos']);
           }
         }
@@ -48,7 +46,7 @@ export class DetallePage implements OnInit {
   }
 
   eliminarAsignatura(asignatura: string){
-    this.alumnoservicio.deleteasignatura(asignatura, this.alumno.id)
+    //this.alumnoservicio.deleteasignatura(asignatura, this.alumno.id)
   }
   
 }

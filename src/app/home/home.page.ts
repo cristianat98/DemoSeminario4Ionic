@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlumnosService } from './alumnos.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AlumnosService } from './alumnos.service';
 export class HomePage {
 
   alumnos = [];
-  constructor(private servicioalumnos: AlumnosService) {}
+  constructor(private servicioalumnos: AlumnosService, private router: Router) {}
 
   ngOnInit(){
     this.alumnos = this.servicioalumnos.getalumnos();
@@ -17,6 +18,10 @@ export class HomePage {
 
   ionViewWillEnter(){
     this.alumnos = this.servicioalumnos.getalumnos();
+  }
+
+  registraralumno(){
+    this.router.navigate(['/alumnos/registrar'])
   }
 
 }

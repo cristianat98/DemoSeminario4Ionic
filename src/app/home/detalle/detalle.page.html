@@ -21,6 +21,26 @@
     </ion-row>
     <ion-row>
       <ion-col>
+        <h1 class ="ion-text-center">Datos de {{alumno.nombre}} {{alumno.apellidos}}</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item>Nombre: {{alumno.nombre}}</ion-item>
+          <ion-item>Apellidos: {{alumno.apellidos}}</ion-item>
+          <ion-item>Correo: {{alumno.correo}}</ion-item>
+          <ion-item>Edad: {{alumno.edad}}</ion-item>
+          <ion-item>Telefono: {{alumno.telefono}}</ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-button color="primary">Modificar Datos</ion-button>
+      <ion-button color="primary">Iniciar Chat</ion-button>
+    </ion-row>
+    <ion-row>
+      <ion-col>
         <h1 class ="ion-text-center">Notas de {{alumno.nombre}} {{alumno.apellidos}}</h1>
       </ion-col>
     </ion-row>
@@ -28,7 +48,7 @@
       <ion-col>
         <ion-list *ngIf="alumno.courses && alumno.courses.length > 0; else noAsignaturas">
           <ion-item *ngFor="let asignatura of alumno.courses">
-            {{asignatura}} Nota: 4
+            {{asignatura.nombre}} Nota: 4
             <ion-button slot = "end" (click)="eliminarAsignatura(asignatura)">
               Eliminar
             </ion-button>

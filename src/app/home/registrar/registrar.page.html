@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/alumnos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrar Nuevo Alumno</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-card>
+        <ion-card-content>
+          Nombre: <ion-input type="text" placeholder="Escribre el nombre" #nombre></ion-input>
+          Apellidos: <ion-input type="text" placeholder="Escribe los DOS apellidos" #apellidos></ion-input>
+          Correo: <ion-input type="correo" placeholder="Escribre el correo" #correo></ion-input>
+          Edad: <ion-input type="number" placeholder="Escribe la edad" #edad></ion-input>
+          Teléfono: <ion-input type="number" placeholder="Escribre el teléfono" #telefono></ion-input>
+          <ion-button color="primary" (click) = "guardaralumno(nombre, apellidos, correo, edad, telefono)">
+            Guardar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>
