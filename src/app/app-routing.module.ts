@@ -11,7 +11,16 @@ const routes: Routes = [
       },
       {
         path: ":alumnoId",
-        loadChildren: () => import('./home/detalle/detalle.module').then(m => m.DetallePageModule)
+        children:[
+          {
+            path: "",
+            loadChildren: () => import('./home/detalle/detalle.module').then(m => m.DetallePageModule)
+          }, 
+          {
+            path: "chat",
+            loadChildren: () => import('./home/detalle/chat/chat.module').then(m => m.ChatPageModule)
+          }
+        ]
       }]
   },
   {
@@ -19,6 +28,7 @@ const routes: Routes = [
     redirectTo: 'alumnos',
     pathMatch: 'full'
   },
+
 ];
 
 @NgModule({
