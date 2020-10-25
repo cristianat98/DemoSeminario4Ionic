@@ -1,20 +1,24 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-icon slot = "end" name="ellipsis-vertical-outline"></ion-icon>
+    <ion-title>Lista de Alumnos de Antonia</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content>
+  <ion-list *ngIf = "alumnos && alumnos.length > 0; else noAlumnos">
+    <ion-item *ngFor="let alumno of alumnos" [routerLink]="['/alumnos', alumno.id]">
+      <ion-avatar slot="start">
+        <ion-img src="https://ta.azureedge.net/p/images/usuarios/l/zNRQERZt1Ej91ZawWw_aTZzsm9JU0UTx0.jpg/600x600cut/"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        {{alumno.nombre}} {{alumno.apellidos}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-template #noAlumnos>
+    <ion-text>
+      <p class ="ion-text-center">Actualmente no eres tutora de ningún alumno.</p>
+    </ion-text>
+  </ng-template>
 </ion-content>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlumnosService } from './alumnos.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,15 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  alumnos = [];
+  constructor(private servicioalumnos: AlumnosService) {}
+
+  ngOnInit(){
+    this.alumnos = this.servicioalumnos.getalumnos();
+  }
+
+  ionViewWillEnter(){
+    this.alumnos = this.servicioalumnos.getalumnos();
+  }
 
 }
