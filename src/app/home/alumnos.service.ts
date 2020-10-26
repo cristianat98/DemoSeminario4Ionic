@@ -32,12 +32,21 @@ export class AlumnosService {
     return this.courses;
   }
 
-  registraralumno(nombre, apellidos, correo, edad, telefono){
+  registraralumno(nombrer, apellidosr, correor, grador, edadr, telefonor){
+    const datos = {
+      "courses": [],
+      "nombre": nombrer,
+      "apellidos": apellidosr,
+      "correo": correor,
+      "grado": grador,
+      "edad": edadr,
+      "telefono": telefonor
+    }
 
+    this.http.post("http://localhost:3000/user/register", JSON.stringify(datos)).toPromise();
   }
 
   deletealumno(alumnoId: string){
-    console.log(alumnoId);
     this.http.delete<any>('http://localhost:3000/user/delete/' + alumnoId).subscribe();
   }
 }

@@ -14,10 +14,11 @@
         <ion-card-content>
           Nombre: <ion-input type="text" placeholder="Escribre el nombre" #nombre></ion-input>
           Apellidos: <ion-input type="text" placeholder="Escribe los DOS apellidos" #apellidos></ion-input>
-          Correo: <ion-input type="correo" placeholder="Escribre el correo" #correo></ion-input>
+          Correo: <ion-input type="email" placeholder="Escribre el correo" #correo></ion-input>
+          Grado: <ion-input type="text" placeholder="Escribre el grado que está cursando" #grado></ion-input>
           Edad: <ion-input type="number" placeholder="Escribe la edad" #edad></ion-input>
           Teléfono: <ion-input type="number" placeholder="Escribre el teléfono" #telefono></ion-input>
-          <ion-button color="primary" (click) = "guardaralumno(nombre, apellidos, correo, edad, telefono)">
+          <ion-button color="primary" (click) = "guardaralumno(nombre, apellidos, correo, grado, edad, telefono)">
             Guardar
           </ion-button>
         </ion-card-content>
