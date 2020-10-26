@@ -45,6 +45,10 @@ export class DetallePage implements OnInit {
     return Math.random() * 10;
   }
 
+  AbrirChat(){
+    this.router.navigate(['/alumnos/' + this.alumno._id + "/chat"]);
+  }
+  
   eliminarAsignatura(asignatura: string){
     //this.alumnoservicio.deleteasignatura(asignatura, this.alumno.id)
   }
