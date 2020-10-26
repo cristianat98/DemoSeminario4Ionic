@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http'
 })
 export class AlumnosService {
   
+  alumno;
   alumnos = [];
   courses = [];
   constructor(private http: HttpClient) { }
@@ -17,7 +18,7 @@ export class AlumnosService {
     return this.alumnos;
   }
 
-  getalumno(alumnoId: string) {
+  getalumno(alumnoId) {
     return {
       ...this.alumnos.find(alumno => {
         return alumno._id === alumnoId
@@ -32,6 +33,14 @@ export class AlumnosService {
     return this.courses;
   }
 
+  getcourse(cursoId){
+    return{
+      ...this.courses.find(course => {
+        return course._id === cursoId
+      })
+    }
+  }
+
   registraralumno(nombrer, apellidosr, correor, grador, edadr, telefonor){
     const datos = {
       "courses": [],
@@ -43,10 +52,64 @@ export class AlumnosService {
       "telefono": telefonor
     }
 
-    this.http.post("http://localhost:3000/user/register", JSON.stringify(datos)).toPromise();
+    console.log("Nuevo Usuario: " + JSON.stringify(datos));
+    //this.http.post("http://localhost:3000/user/register", JSON.stringify(datos)).toPromise();
+  }
+
+  modificaralumno(alumnodId, nombrea, apellidosa, correoa, gradoa, edada, telefonoa){
+
+    this.alumno = this.getalumno(alumnodId);
+
+    const datos = {
+      "courses": this.alumno.courses,
+      "nombre": nombrea,
+      "apellidos": apellidosa,
+      "correo": correoa,
+      "grado": gradoa,
+      "edad": edada,
+      "telefono": telefonoa
+    }
+    console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
+    //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).toPromise();
   }
 
   deletealumno(alumnoId: string){
     this.http.delete<any>('http://localhost:3000/user/delete/' + alumnoId).subscribe();
+  }
+
+  addasignatura(alumnoId, cursoId){
+
+    this.alumno = this.getalumno(alumnoId);
+    ;
+
+    const datos = {
+      "courses": this.alumno.courses,
+      "nombre": this.alumno.nombre,
+      "apellidos": this.alumno.apellidos,
+      "correo": this.alumno.correo,
+      "grado": this.alumno.grado,
+      "edad": this.alumno.edad,
+      "telefono": this.alumno.telefono
+    }
+    console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
+    //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).toPromise();
+  }
+
+  deleteasignatura(alumnoId, cursoId){
+    this.alumno = this.getalumno(alumnoId);
+
+      const datos = {
+        "courses": this.alumno.courses.filter(course => {
+          return course._id !== cursoId}),
+        "nombre": this.alumno.nombre,
+        "apellidos": this.alumno.apellidos,
+        "correo": this.alumno.correo,
+        "grado": this.alumno.grado,
+        "edad": this.alumno.edad,
+        "telefono": this.alumno.telefono
+      }
+
+      console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
+      //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).toPromise();  
   }
 }

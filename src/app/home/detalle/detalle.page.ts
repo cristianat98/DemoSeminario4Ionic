@@ -45,12 +45,33 @@ export class DetallePage implements OnInit {
     return Math.random() * 10;
   }
 
+  AbrirModificar(){
+    this.router.navigate(['/alumnos/' + this.alumno._id + "/modificar"]);
+  }
+
   AbrirChat(){
     this.router.navigate(['/alumnos/' + this.alumno._id + "/chat"]);
   }
   
-  eliminarAsignatura(asignatura: string){
-    //this.alumnoservicio.deleteasignatura(asignatura, this.alumno.id)
+  async eliminarAsignatura(asignatura){
+    const alertElement = await this.alertCtrl.create({
+      header: "¿Estás segura que " + this.alumno.nombre + " " + this.alumno.apellidos + " ya no está cursando " + asignatura.nombre + "?",
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.alumnoservicio.deleteasignatura(this.alumno._id, asignatura._id)
+            this.router.navigate(['/alumnos']);
+          }
+        }
+      ]
+    });
+    await alertElement.present();
+    
   }
   
 }

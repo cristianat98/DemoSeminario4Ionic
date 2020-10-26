@@ -1,9 +1,28 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>modificar</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button [routerLink]="['/alumnos', alumno._id]"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Modificar el usuario {{alumno.nombre}} {{alumno.apellidos}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-row>
+    <ion-col>
+      <ion-card>
+        <ion-card-content>
+          Nombre: <ion-input type="text" placeholder="Escribre el nombre" value = {{alumno.nombre}} #nombre ></ion-input>
+          Apellidos: <ion-input type="text" placeholder="Escribe los DOS apellidos" value = {{alumno.apellidos}} #apellidos></ion-input>
+          Correo: <ion-input type="email" placeholder="Escribre el correo" value = {{alumno.correo}} #correo></ion-input>
+          Grado: <ion-input type="text" placeholder="Escribre el grado que está cursando" value = {{alumno.grado}} #grado></ion-input>
+          Edad: <ion-input type="number" placeholder="Escribe la edad" value = {{alumno.edad}} #edad></ion-input>
+          Teléfono: <ion-input type="number" placeholder="Escribre el teléfono" value = {{alumno.telefono}} #telefono></ion-input>
+          <ion-button color="primary" (click) = "guardaralumno(nombre, apellidos, correo, grado, edad, telefono)">
+            Guardar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>
