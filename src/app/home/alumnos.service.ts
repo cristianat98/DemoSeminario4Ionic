@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
@@ -52,14 +52,13 @@ export class AlumnosService {
       "telefono": telefonor
     }
 
-    console.log("Nuevo Usuario: " + JSON.stringify(datos));
-    //this.http.post("http://localhost:3000/user/register", JSON.stringify(datos)).toPromise();
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    this.http.post("http://localhost:3000/user/register", JSON.stringify(datos), {headers}).subscribe();
   }
 
   modificaralumno(alumnodId, nombrea, apellidosa, correoa, gradoa, edada, telefonoa){
 
     this.alumno = this.getalumno(alumnodId);
-
     const datos = {
       "courses": this.alumno.courses,
       "nombre": nombrea,
@@ -69,8 +68,9 @@ export class AlumnosService {
       "edad": edada,
       "telefono": telefonoa
     }
-    console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
-    //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).toPromise();
+
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();
   }
 
   deletealumno(alumnoId: string){
@@ -80,7 +80,6 @@ export class AlumnosService {
   addasignatura(alumnoId, cursoId){
 
     this.alumno = this.getalumno(alumnoId);
-    ;
 
     const datos = {
       "courses": this.alumno.courses,
@@ -91,8 +90,9 @@ export class AlumnosService {
       "edad": this.alumno.edad,
       "telefono": this.alumno.telefono
     }
+
     console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
-    //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).toPromise();
+    //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).subscribe();
   }
 
   deleteasignatura(alumnoId, cursoId){
@@ -110,6 +110,8 @@ export class AlumnosService {
       }
 
       console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
-      //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).toPromise();  
+
+      const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+      this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();  
   }
 }
