@@ -22,8 +22,9 @@ export class AlumnosService {
     return {
       ...this.alumnos.find(alumno => {
         return alumno._id === alumnoId
-    })
-    } 
+      })
+    }
+    //return this.http.get<any>('http://localhost:3000/user/' + alumnoId);
   }
 
   getcourses(){

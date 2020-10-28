@@ -18,11 +18,16 @@ export class DetallePage implements OnInit {
   constructor(private activatedroute: ActivatedRoute, private alumnoservicio: AlumnosService, private router: Router, private alertCtrl: AlertController) { }
 
   ngOnInit() {
-    this.activatedroute.paramMap.subscribe(paramMap => {
+    /*this.activatedroute.paramMap.subscribe(paramMap => {
       const recipeId = paramMap.get('alumnoId');
-      this.alumnoservicio.getalumno(recipeId);
-      this.alumno = this.alumnoservicio.getalumno(recipeId);
-  })
+      this.alumnoservicio.getalumno(recipeId).subscribe(data =>{
+        this.alumno = data})
+  })*/
+
+  this.activatedroute.paramMap.subscribe(paramMap => {
+    const recipeId = paramMap.get('alumnoId');
+    this.alumno = this.alumnoservicio.getalumno(recipeId);
+})
 
   this.cursossincursar = this.alumnoservicio.getcourses();
   } 
@@ -32,14 +37,11 @@ export class DetallePage implements OnInit {
 
     this.i = 0;
     while (this.i<this.alumno.courses.length){
-      this.alumno.courses[this.i].nota = this.NotaAleatiora();
-      this.i++;
+      this.cursossincursar = this.cursossincursar.filter(course => {
+        return course._id !== this.alumno.courses[this.i]._id})
+      
+        this.i++;
     }
-
-    /*this.cursossincursar = this.cursossincursar.filter(course => {
-      return course._id !== this.alumno.courses[0]._id})
-      console.log("El curso de cursossincursar es: " + this.alumno.courses[0]._id);
-    console.log("Los cursos sin cursar son: "+ JSON.stringify(this.cursossincursar));*/
   }
 
   async deleteAlumno(){
@@ -62,8 +64,7 @@ export class DetallePage implements OnInit {
     await alertElement.present();
   }
 
-  NotaAleatiora(){
-    
+  getNota(){ 
     this.aleatorio = Math.random() * 10;
     this.resto = this.aleatorio%1;
     this.aleatorio = this.aleatorio-this.resto;
