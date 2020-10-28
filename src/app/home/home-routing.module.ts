@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'registrar',
     loadChildren: () => import('./registrar/registrar.module').then( m => m.RegistrarPageModule)
+  },
+  {
+    path: 'addasignatura',
+    loadChildren: () => import('./addasignatura/addasignatura.module').then( m => m.AddasignaturaPageModule)
   }
 
 ];

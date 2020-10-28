@@ -25,6 +25,6 @@ export class HomePage {
   }
 
   registrarasignatura(){
-    this.router.navigate(['/alumnos/registrar']);
+    this.router.navigate(['/alumnos/addasignatura']);
   }
 }

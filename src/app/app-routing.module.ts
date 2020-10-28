@@ -29,6 +29,10 @@ const routes: Routes = [
       {
         path: "registrar",
         loadChildren: () => import('./home/registrar/registrar.module').then(m => m.RegistrarPageModule)
+      },
+      {
+        path: "addasignatura",
+        loadChildren: () => import('./home/addasignatura/addasignatura.module').then (m => m.AddasignaturaPageModule) 
       }]
     
   },
@@ -36,8 +40,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'alumnos',
     pathMatch: 'full'
-  },
-
+  }
 ];
 
 @NgModule({

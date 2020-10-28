@@ -99,19 +99,22 @@ export class DetallePage implements OnInit {
   }
 
   async addasignatura(asignatura){
-    console.log("La asignatura es: " + asignatura.value);
-    const alertElement = await this.alertCtrl.create({
-      header: 'La asignatura ' + this.alumnoservicio.getcourse(asignatura.value) + " se ha añadido al alumno " + this.alumno.nombre + " " + this.alumno.apellidos,
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.alumnoservicio.addasignatura(this.alumno._id, asignatura.value);
-            this.router.navigate(['/alumnos']);
+    
+    if (asignatura.value != undefined){
+      const alertElement = await this.alertCtrl.create({
+        header: 'La asignatura ' + this.alumnoservicio.getcourse(asignatura.value).nombre + " se ha añadido al alumno " + this.alumno.nombre + " " + this.alumno.apellidos,
+        buttons: [
+          {
+            text: 'OK',
+            handler: () => {
+              this.alumnoservicio.addasignatura(this.alumno._id, asignatura.value);
+              this.router.navigate(['/alumnos']);
+            }
           }
-        }
-      ]
-    });
-    await alertElement.present();
+        ]
+      });
+      await alertElement.present();
+    }
+    
   }
 }
