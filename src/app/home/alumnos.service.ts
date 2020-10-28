@@ -80,6 +80,8 @@ export class AlumnosService {
   addasignatura(alumnoId, cursoId){
 
     this.alumno = this.getalumno(alumnoId);
+    this.alumno.courses.push({
+      _id: cursoId});
 
     const datos = {
       "courses": this.alumno.courses,
@@ -92,7 +94,8 @@ export class AlumnosService {
     }
 
     console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
-    //this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos)).subscribe();
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();
   }
 
   deleteasignatura(alumnoId, cursoId){
@@ -108,8 +111,6 @@ export class AlumnosService {
         "edad": this.alumno.edad,
         "telefono": this.alumno.telefono
       }
-
-      console.log("Los nuevos datos del usuario: " + this.alumno._id + " son: " + JSON.stringify(datos));
 
       const headers =  new HttpHeaders().set('Content-Type', 'application/json');
       this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();  

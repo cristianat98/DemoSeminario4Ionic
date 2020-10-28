@@ -49,7 +49,7 @@
       <ion-col>
         <ion-list *ngIf="alumno.courses && alumno.courses.length > 0; else noAsignaturas">
           <ion-item *ngFor="let asignatura of alumno.courses">
-            {{asignatura.nombre}} Nota: 4
+            {{asignatura.nombre}} Nota: {{asignatura.nota}}
             <ion-button slot = "end" (click)="eliminarAsignatura(asignatura)">
               Eliminar
             </ion-button>
@@ -63,7 +63,24 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-button color="primary">
+      <ion-col>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Selecciona una asignatura para añadir
+            </ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>Asignaturas</ion-label>
+            <ion-select #asignatura>
+              <ion-select-option *ngFor="let asignatura of cursossincursar" value={{asignatura._id}}>{{asignatura.nombre}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-button color="primary" (click) = "addasignatura(asignatura)">
         Añadir Asignatura
       </ion-button>
     </ion-row>
