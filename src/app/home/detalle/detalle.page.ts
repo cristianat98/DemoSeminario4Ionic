@@ -40,7 +40,8 @@ export class DetallePage implements OnInit {
       this.cursossincursar = this.cursossincursar.filter(course => {
         return course._id !== this.alumno.courses[this.i]._id})
       
-        this.i++;
+      this.alumno.courses[this.i].nota = this.getNota();
+      this.i++;
     }
   }
 
@@ -116,6 +117,5 @@ export class DetallePage implements OnInit {
       });
       await alertElement.present();
     }
-    
   }
 }

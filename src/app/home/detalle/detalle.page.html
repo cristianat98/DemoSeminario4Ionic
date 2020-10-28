@@ -49,7 +49,7 @@
       <ion-col>
         <ion-list *ngIf="alumno.courses && alumno.courses.length > 0; else noAsignaturas">
           <ion-item *ngFor="let asignatura of alumno.courses">
-            {{asignatura.nombre}} Creditos: {{asignatura.creditos}}
+            {{asignatura.nombre}} Creditos: {{asignatura.creditos}} Nota: {{asignatura.nota}}
             <ion-button slot = "end" (click)="eliminarAsignatura(asignatura)">
               Eliminar
             </ion-button>
