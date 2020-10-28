@@ -18,7 +18,8 @@
           Grado: <ion-input type="text" placeholder="Escribre el grado que está cursando" #grado></ion-input>
           Edad: <ion-input type="number" placeholder="Escribe la edad" #edad></ion-input>
           Teléfono: <ion-input type="number" placeholder="Escribre el teléfono" #telefono></ion-input>
-          <ion-button color="primary" (click) = "guardaralumno(nombre, apellidos, correo, grado, edad, telefono)">
+          Foto de Perfil (URL): <ion-input type="text" placeholder="Escribre la URL de la foto" #foto></ion-input>
+          <ion-button color="primary" (click) = "guardaralumno(nombre, apellidos, correo, grado, edad, telefono, foto)">
             Guardar
           </ion-button>
         </ion-card-content>

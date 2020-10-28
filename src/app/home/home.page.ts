@@ -21,7 +21,10 @@ export class HomePage {
   }
 
   registraralumno(){
-    this.router.navigate(['/alumnos/registrar'])
+    this.router.navigate(['/alumnos/registrar']);
   }
 
+  registrarasignatura(){
+    this.router.navigate(['/alumnos/registrar']);
+  }
 }

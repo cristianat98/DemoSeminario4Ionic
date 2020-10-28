@@ -21,9 +21,9 @@ export class ModificarPage implements OnInit {
   })
   }
 
-  async guardaralumno(nombre, apellidos, correo, grado, edad, telefono){
+  async guardaralumno(nombre, apellidos, correo, grado, edad, telefono, foto){
     
-    if (nombre.value == "" || apellidos.value == "" || correo.value == "" || grado.value == "" || edad.value == "" || telefono.value == ""){
+    if (nombre.value == "" || apellidos.value == "" || correo.value == "" || grado.value == "" || edad.value == "" || telefono.value == "" || foto.value == ""){
       const alertElement = await this.alertCtrl.create({
         header: 'Debe rellenar todos los campos',
         buttons: [
@@ -43,7 +43,7 @@ export class ModificarPage implements OnInit {
           {
             text: 'OK',
             handler: () => {
-              this.alumnoservicio.modificaralumno(this.alumno._id, nombre.value, apellidos.value, correo.value, grado.value, edad.value, telefono.value);
+              this.alumnoservicio.modificaralumno(this.alumno._id, nombre.value, apellidos.value, correo.value, grado.value, edad.value, telefono.value, foto.value);
               this.router.navigate(['/alumnos/'+this.alumno._id]);
             }
           }

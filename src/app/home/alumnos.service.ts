@@ -41,7 +41,7 @@ export class AlumnosService {
     }
   }
 
-  registraralumno(nombrer, apellidosr, correor, grador, edadr, telefonor){
+  registraralumno(nombrer, apellidosr, correor, grador, edadr, telefonor,fotor){
     const datos = {
       "courses": [],
       "nombre": nombrer,
@@ -49,14 +49,15 @@ export class AlumnosService {
       "correo": correor,
       "grado": grador,
       "edad": edadr,
-      "telefono": telefonor
+      "telefono": telefonor,
+      "URL": fotor
     }
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
     this.http.post("http://localhost:3000/user/register", JSON.stringify(datos), {headers}).subscribe();
   }
 
-  modificaralumno(alumnodId, nombrea, apellidosa, correoa, gradoa, edada, telefonoa){
+  modificaralumno(alumnodId, nombrea, apellidosa, correoa, gradoa, edada, telefonoa, fotoa){
 
     this.alumno = this.getalumno(alumnodId);
     const datos = {
@@ -66,9 +67,11 @@ export class AlumnosService {
       "correo": correoa,
       "grado": gradoa,
       "edad": edada,
-      "telefono": telefonoa
+      "telefono": telefonoa,
+      "URL": fotoa
     }
 
+    console.log("El usuario que se envía es: " + JSON.stringify(datos));
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
     this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();
   }

@@ -13,7 +13,7 @@
   <ion-list *ngIf = "alumnos && alumnos.length > 0; else noAlumnos">
     <ion-item *ngFor="let alumno of alumnos" [routerLink]="['/alumnos', alumno._id]">
       <ion-avatar slot="start">
-        <ion-img src="https://ta.azureedge.net/p/images/usuarios/l/zNRQERZt1Ej91ZawWw_aTZzsm9JU0UTx0.jpg/600x600cut/"></ion-img>
+        <ion-img [src]="alumno.URL"></ion-img>
       </ion-avatar>
       <ion-label>
         {{alumno.nombre}} {{alumno.apellidos}}
@@ -25,9 +25,17 @@
       <p class ="ion-text-center">Actualmente no eres tutora de ningún alumno.</p>
     </ion-text>
   </ng-template>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="danger" (click)="registraralumno()">
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button color="danger">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+    <ion-fab-list side="top">
+      <ion-fab-button (click) = "registraralumno()">
+        <ion-icon name="accessibility-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click) = "registrarasignatura()">
+        <ion-icon name="library-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>  
 </ion-content>
