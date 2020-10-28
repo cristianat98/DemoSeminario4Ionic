@@ -17,6 +17,22 @@ export class AddasignaturaPage implements OnInit {
   ngOnInit() {
   }
 
+  async mensajeservidor (mensaje: string){
+
+    const alertElement = await this.alertCtrl.create({
+      header: mensaje,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.router.navigate(['/alumnos']);
+          }
+        }
+      ]
+    });
+    await alertElement.present();
+  }
+
   async registrarasignatura(nombre, creditos){
     if (nombre.value == "" || creditos.value == ""){
       const alertElement = await this.alertCtrl.create({
@@ -32,20 +48,14 @@ export class AddasignaturaPage implements OnInit {
     }
 
     else{
-      const alertElement = await this.alertCtrl.create({
-        header: 'Asignatura guardada',
-        buttons: [
-          {
-            text: 'OK',
-            handler: () => {
-              this.course = new Course(nombre.value, creditos.value)
-              this.servicioalumnos.registrarasignatura(this.course);
-              this.router.navigate(['/alumnos']);
-            }
-          }
-        ]
-      });
-      await alertElement.present();
+      this.course = new Course(nombre.value, creditos.value);
+      this.servicioalumnos.registrarasignatura(this.course).subscribe(data => {
+        console.log(data);
+        this.mensajeservidor("Asignatura Añadida Correctamente");
+      }, error => {
+        console.log(error);
+        this.mensajeservidor("Parece que te has desconectado del Servidor");
+      })
     }
   }
 }

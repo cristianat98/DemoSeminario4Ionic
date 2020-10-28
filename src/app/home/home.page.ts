@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { User } from '../modelos/user';
 import { AlumnosService } from './alumnos.service';
+import { MensajesService } from './mensajes.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { AlumnosService } from './alumnos.service';
 export class HomePage {
 
   alumnos: User[];
-  constructor(private servicioalumnos: AlumnosService, private router: Router, private alertCtrl: AlertController) {}
+  constructor(private servicioalumnos: AlumnosService, private router: Router, private alertCtrl: AlertController, private mensajeserver: MensajesService) {}
 
   ngOnInit(){
   }
@@ -24,22 +25,9 @@ export class HomePage {
       this.alumnos = data}, 
       error =>{
         console.log(error);
-        this.mensajeerror();
+        this.mensajeserver.mensajeerror();
       }
     );
-  }
-
-  async mensajeerror(){
-    const alertElement = await this.alertCtrl.create({
-      header: 'Parece que se ha desconectado del servidor',
-      buttons: [
-        {
-          text: 'OK',
-          role: 'cancel'
-        }
-      ]
-    });
-    await alertElement.present();
   }
 
   registraralumno(){

@@ -4,6 +4,7 @@ import { AlumnosService } from '../alumnos.service';
 import { AlertController } from '@ionic/angular'; 
 import { User } from 'src/app/modelos/user';
 import { Course} from 'src/app/modelos/course'
+import { MensajesService } from '../mensajes.service';
 
 @Component({
   selector: 'app-detalle',
@@ -12,42 +13,39 @@ import { Course} from 'src/app/modelos/course'
 })
 export class DetallePage implements OnInit {
 
-  alumno: User;
+  alumno: User = new User ("", "", "", 0, 0, "", [], "",);
   cursossincursar: Course[];
   i: number;
   aleatorio: number;
   resto: number;
-  constructor(private activatedroute: ActivatedRoute, private alumnoservicio: AlumnosService, private router: Router, private alertCtrl: AlertController) { }
+  constructor(private activatedroute: ActivatedRoute, private alumnoservicio: AlumnosService, private router: Router, private alertCtrl: AlertController,
+    private mensajeserver: MensajesService) { }
 
   ngOnInit() {
-  this.activatedroute.paramMap.subscribe(paramMap => {
-    const recipeId = paramMap.get('alumnoId');
-    this.alumnoservicio.getalumno(recipeId).subscribe(data =>{
-      this.alumno = data;
-      console.log(data);
-    }
-    );
-  })
-
-  this.alumnoservicio.getcourses().subscribe(data => {
-    this.cursossincursar = data
-  });
   } 
 
   ionViewWillEnter(){
-    this.alumnoservicio.getcourses().subscribe(data => {
-      this.cursossincursar = data
+    this.activatedroute.paramMap.subscribe(paramMap => {
+      const recipeId = paramMap.get('alumnoId');
+      this.alumnoservicio.getalumno(recipeId).subscribe(data =>{
+        console.log(data);
+        this.alumno = data;
+        this.alumnoservicio.getcourses().subscribe(data => {
+          console.log(data);
+          this.cursossincursar = data;
+          this.i = 0;
+          while (this.i<this.alumno.courses.length){
+            this.cursossincursar = this.cursossincursar.filter(course => {
+              return course._id !== this.alumno.courses[this.i]._id})
+            this.alumno.courses[this.i].nota = this.getNota();  
+            this.i++;
+          }
+        });
+      }, error => {
+        console.log(error);
+        this.mensajeserver.mensajeerror();
+      });
     });
-
-    this.i = 0;
-    console.log(this.alumno)
-    while (this.i<this.alumno.courses.length){
-      this.cursossincursar = this.cursossincursar.filter(course => {
-        return course._id !== this.alumno.courses[this.i]._id})
-      
-      //this.alumno.courses[this.i].nota = this.getNota();
-      this.i++;
-    }
   }
 
   async deleteAlumno(){
@@ -61,20 +59,26 @@ export class DetallePage implements OnInit {
         {
           text: 'Sí',
           handler: () => {
-            this.alumnoservicio.deletealumno(this.alumno._id);
-            this.router.navigate(['/alumnos']);
+            this.alumnoservicio.deletealumno(this.alumno._id).subscribe(data => {
+              console.log(data);
+              this.router.navigate(['/alumnos']);
+            }, error => {
+              console.log(error);
+              this.mensajeserver.mensajeerror();
+            });
           }
-        }
+        } 
       ]
     });
     await alertElement.present();
   }
 
-  getNota(){ 
-    this.aleatorio = Math.random() * 10;
+  getNota(): number{ 
+    console.log("Número aleatorio")
+    this.aleatorio = Math.random()*10;
     this.resto = this.aleatorio%1;
     this.aleatorio = this.aleatorio-this.resto;
-    return this.aleatorio;
+    return Math.round(Math.random()*10);
   }
 
   AbrirModificar(){
@@ -96,8 +100,13 @@ export class DetallePage implements OnInit {
         {
           text: 'Sí',
           handler: () => {
-            this.alumnoservicio.deleteasignatura(this.alumno, asignatura._id)
-            this.router.navigate(['/alumnos']);
+            this.alumnoservicio.deleteasignatura(this.alumno, asignatura._id).subscribe(data =>{
+              console.log(data);
+              this.ionViewWillEnter();
+            }, error => {
+              console.log(error);
+              this.mensajeserver.mensajeerror();
+            })
           }
         }
       ]
@@ -106,21 +115,14 @@ export class DetallePage implements OnInit {
   }
 
   async addasignatura(asignatura){
-    
     if (asignatura.value != undefined){
-      const alertElement = await this.alertCtrl.create({
-        header: "La asignatura  se ha añadido al alumno " + this.alumno.nombre + " " + this.alumno.apellidos,
-        buttons: [
-          {
-            text: 'OK',
-            handler: () => {
-              //this.alumnoservicio.addasignatura(this.alumno, asignatura.value);
-              this.router.navigate(['/alumnos']);
-            }
-          }
-        ]
+      this.alumnoservicio.addasignatura(asignatura.value, this.alumno).subscribe(data => {
+        console.log(data);
+        this.ionViewWillEnter();
+      }, error => {
+        console.log(error);
+        this.mensajeserver.mensajeerror();
       });
-      await alertElement.present();
     }
   }
 }

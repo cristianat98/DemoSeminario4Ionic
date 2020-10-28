@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { User } from 'src/app/modelos/user';
 import { AlumnosService } from '../../alumnos.service';
+import { MensajesService } from '../../mensajes.service';
 
 @Component({
   selector: 'app-modificar',
@@ -11,14 +12,19 @@ import { AlumnosService } from '../../alumnos.service';
 })
 export class ModificarPage implements OnInit {
 
-  alumno: User;
-  constructor(private activatedroute: ActivatedRoute, private alumnoservicio: AlumnosService, private alertCtrl: AlertController, private router: Router) { }
+  alumno: User = new User("", "", "", 0, 0, "", [], "");
+  constructor(private activatedroute: ActivatedRoute, private alumnoservicio: AlumnosService, private alertCtrl: AlertController, private router: Router,
+    private mensajeserver: MensajesService) { }
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(paramMap => {
       const recipeId = paramMap.get('alumnoId');
       this.alumnoservicio.getalumno(recipeId).subscribe(data =>{
+        console.log(data);
         this.alumno = data
+      }, error => {
+        console.log(error);
+        this.mensajeserver.mensajeerror();
       });
   })
   }
@@ -39,19 +45,21 @@ export class ModificarPage implements OnInit {
     }
 
     else{
-      const alertElement = await this.alertCtrl.create({
-        header: 'Alumno modificado',
-        buttons: [
-          {
-            text: 'OK',
-            handler: () => {
-              this.alumnoservicio.modificaralumno(this.alumno);
-              this.router.navigate(['/alumnos/'+this.alumno._id]);
-            }
-          }
-        ]
+      this.alumno.nombre = nombre.value;
+      this.alumno.apellidos = apellidos.value;
+      this.alumno.correo = correo.value;
+      this.alumno.grado = grado.value;
+      this.alumno.edad = edad.value;
+      this.alumno.telefono = telefono.value;
+      this.alumno.URL = foto.value;
+      this.alumnoservicio.modificaralumno(this.alumno).subscribe(data => {
+        console.log(data);
+        this.router.navigate(['/alumnos/'+ this.alumno._id]);
+      }, error => {
+        console.log(error);
+        this.mensajeserver.mensajeerror();
       });
-      await alertElement.present();
+      
     }
   }
 

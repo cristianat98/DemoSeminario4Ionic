@@ -52,8 +52,8 @@ export class RegistrarPage implements OnInit {
     else{
       this.alumno = new User(nombre.value, apellidos.value, correo.value, edad.value, telefono.value, grado.value, [], foto.value);
       this.servicioalumnos.registraralumno(this.alumno).subscribe(data => {
-        this.mensajeservidor("Alumno Registrado Correctamente.");
         console.log(data);
+        this.mensajeservidor("Alumno Registrado Correctamente.");
       }, error => {
         console.log(error);
         this.mensajeservidor("Parece que te has desconectado del servidor");

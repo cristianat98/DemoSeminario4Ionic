@@ -46,19 +46,26 @@ export class AlumnosService {
     return this.http.delete<any>('http://localhost:3000/user/delete/' + alumnoId);
   }
 
-  /*addasignatura(asignaturaId: string, alumno: User): Observable<any>{
+  addasignatura(asignaturaId: string, alumno: User): Observable<any>{
+
+    alumno.courses.push ({
+      _id: asignaturaId,
+      nombre: "",
+      creditos: 0,
+      nota: 0
+    })
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.put("http://localhost:3000/user/update/" + alumnoId, asignatura, {headers});
-  }*/
+    return this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers});
+  }
 
-  deleteasignatura(alumno: User, cursoId: string){
+  deleteasignatura(alumno: User, cursoId: string): Observable<any>{
 
-    alumno.courses.filter(course =>{
+    alumno.courses = alumno.courses.filter(course =>{
       return course._id !== cursoId
     });
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers}).subscribe();  
+    return this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers});  
   }
 }
