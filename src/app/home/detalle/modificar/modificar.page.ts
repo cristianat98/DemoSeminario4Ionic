@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { User } from 'src/app/modelos/user';
 import { AlumnosService } from '../../alumnos.service';
 
 @Component({
@@ -10,14 +11,15 @@ import { AlumnosService } from '../../alumnos.service';
 })
 export class ModificarPage implements OnInit {
 
-  alumno;
+  alumno: User;
   constructor(private activatedroute: ActivatedRoute, private alumnoservicio: AlumnosService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
     this.activatedroute.paramMap.subscribe(paramMap => {
       const recipeId = paramMap.get('alumnoId');
-      this.alumnoservicio.getalumno(recipeId);
-      this.alumno = this.alumnoservicio.getalumno(recipeId);
+      this.alumnoservicio.getalumno(recipeId).subscribe(data =>{
+        this.alumno = data
+      });
   })
   }
 
@@ -43,7 +45,7 @@ export class ModificarPage implements OnInit {
           {
             text: 'OK',
             handler: () => {
-              this.alumnoservicio.modificaralumno(this.alumno._id, nombre.value, apellidos.value, correo.value, grado.value, edad.value, telefono.value, foto.value);
+              this.alumnoservicio.modificaralumno(this.alumno);
               this.router.navigate(['/alumnos/'+this.alumno._id]);
             }
           }

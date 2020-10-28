@@ -1,132 +1,64 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
+import { Observable } from 'rxjs';
+import{User} from '../modelos/user'
+import { Course } from '../modelos/course';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnosService {
   
-  alumno;
-  alumnos = [];
-  courses = [];
+  URLhttp: string = "http://localhost:3000"
   constructor(private http: HttpClient) { }
   
-  getalumnos(){
-    this.http.get<any>('http://localhost:3000/user').subscribe(data => {
-      this.alumnos = data;
+  getalumnos(): Observable<User[]>{
+    return this.http.get<any>(this.URLhttp + "/user");
+  }
+
+  getalumno(alumnoId: string): Observable<User> {
+    return this.http.get<any>(this.URLhttp + "/user/" + alumnoId);
+  }
+
+  getcourses(): Observable<Course[]>{
+    return this.http.get<any>(this.URLhttp + "/course");
+  }
+
+  registraralumno(alumno: User): Observable<any>{
+
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.URLhttp + "/user/register", alumno, {headers});
+  }
+
+  registrarasignatura(asignatura: Course): Observable<any>{
+
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post("http://localhost:3000/course/add", asignatura, {headers});
+  }
+
+  modificaralumno(alumno: User): Observable<any>{
+
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers});
+  }
+
+  deletealumno(alumnoId: string): Observable<any>{
+    return this.http.delete<any>('http://localhost:3000/user/delete/' + alumnoId);
+  }
+
+  /*addasignatura(asignaturaId: string, alumno: User): Observable<any>{
+
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.put("http://localhost:3000/user/update/" + alumnoId, asignatura, {headers});
+  }*/
+
+  deleteasignatura(alumno: User, cursoId: string){
+
+    alumno.courses.filter(course =>{
+      return course._id !== cursoId
     });
-    return this.alumnos;
-  }
-
-  getalumno(alumnoId) {
-    return {
-      ...this.alumnos.find(alumno => {
-        return alumno._id === alumnoId
-      })
-    }
-    //return this.http.get<any>('http://localhost:3000/user/' + alumnoId);
-  }
-
-  getcourses(){
-    this.http.get<any>('http://localhost:3000/course').subscribe(data => {
-      this.courses = data;
-    });
-    return this.courses;
-  }
-
-  getcourse(cursoId){
-    return{
-      ...this.courses.find(course => {
-        return course._id === cursoId
-      })
-    }
-  }
-
-  registraralumno(nombrer, apellidosr, correor, grador, edadr, telefonor,fotor){
-    const datos = {
-      "courses": [],
-      "nombre": nombrer,
-      "apellidos": apellidosr,
-      "correo": correor,
-      "grado": grador,
-      "edad": edadr,
-      "telefono": telefonor,
-      "URL": fotor
-    }
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.post("http://localhost:3000/user/register", JSON.stringify(datos), {headers}).subscribe();
-  }
-
-  registrarasignatura(nombrer, creditosr){
-    const datos = {
-      "nombre": nombrer,
-      "creditos": creditosr
-    }
-
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.post("http://localhost:3000/course/add", JSON.stringify(datos), {headers}).subscribe();
-  }
-
-  modificaralumno(alumnodId, nombrea, apellidosa, correoa, gradoa, edada, telefonoa, fotoa){
-
-    this.alumno = this.getalumno(alumnodId);
-    const datos = {
-      "courses": this.alumno.courses,
-      "nombre": nombrea,
-      "apellidos": apellidosa,
-      "correo": correoa,
-      "grado": gradoa,
-      "edad": edada,
-      "telefono": telefonoa,
-      "URL": fotoa
-    }
-
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();
-  }
-
-  deletealumno(alumnoId: string){
-    this.http.delete<any>('http://localhost:3000/user/delete/' + alumnoId).subscribe();
-  }
-
-  addasignatura(alumnoId, cursoId){
-
-    this.alumno = this.getalumno(alumnoId);
-    this.alumno.courses.push({
-      _id: cursoId});
-
-    const datos = {
-      "courses": this.alumno.courses,
-      "nombre": this.alumno.nombre,
-      "apellidos": this.alumno.apellidos,
-      "correo": this.alumno.correo,
-      "grado": this.alumno.grado,
-      "edad": this.alumno.edad,
-      "telefono": this.alumno.telefono,
-      "URL": this.alumno.URL
-    }
-
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();
-  }
-
-  deleteasignatura(alumnoId, cursoId){
-    this.alumno = this.getalumno(alumnoId);
-
-      const datos = {
-        "courses": this.alumno.courses.filter(course => {
-          return course._id !== cursoId}),
-        "nombre": this.alumno.nombre,
-        "apellidos": this.alumno.apellidos,
-        "correo": this.alumno.correo,
-        "grado": this.alumno.grado,
-        "edad": this.alumno.edad,
-        "telefono": this.alumno.telefono,
-        "URL": this.alumno.URL
-      }
-
-      const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-      this.http.put("http://localhost:3000/user/update/" + this.alumno._id, JSON.stringify(datos), {headers}).subscribe();  
+    this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers}).subscribe();  
   }
 }

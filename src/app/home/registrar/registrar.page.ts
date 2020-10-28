@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AlumnosService } from '../alumnos.service';
+import { Course} from '../../modelos/course'
+import { User } from 'src/app/modelos/user';
 
 @Component({
   selector: 'app-registrar',
@@ -10,11 +12,26 @@ import { AlumnosService } from '../alumnos.service';
 })
 export class RegistrarPage implements OnInit {
 
-  courses = [];
+  alumno: User;
   constructor(private servicioalumnos: AlumnosService, private alertCtrl: AlertController, private router: Router) { }
 
   ngOnInit() {
-    this.courses = this.servicioalumnos.getcourses();
+  }
+
+  async mensajeservidor(mensaje: string){
+
+    const alertElement = await this.alertCtrl.create({
+      header: mensaje,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.router.navigate(['/alumnos']);
+          }
+        }
+      ]
+    });
+    await alertElement.present();
   }
 
   async guardaralumno(nombre, apellidos, correo, grado, edad, telefono, foto){
@@ -33,19 +50,14 @@ export class RegistrarPage implements OnInit {
     }
 
     else{
-      const alertElement = await this.alertCtrl.create({
-        header: 'Alumno registrado',
-        buttons: [
-          {
-            text: 'OK',
-            handler: () => {
-              this.servicioalumnos.registraralumno(nombre.value, apellidos.value, correo.value, grado.value, edad.value, telefono.value, foto.value);
-              this.router.navigate(['/alumnos']);
-            }
-          }
-        ]
+      this.alumno = new User(nombre.value, apellidos.value, correo.value, edad.value, telefono.value, grado.value, [], foto.value);
+      this.servicioalumnos.registraralumno(this.alumno).subscribe(data => {
+        this.mensajeservidor("Alumno Registrado Correctamente.");
+        console.log(data);
+      }, error => {
+        console.log(error);
+        this.mensajeservidor("Parece que te has desconectado del servidor");
       });
-      await alertElement.present();
     }
   }
 }
