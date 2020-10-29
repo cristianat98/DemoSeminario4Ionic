@@ -10,6 +10,7 @@ import { Course } from '../modelos/course';
 export class AlumnosService {
   
   URLhttp: string = "http://localhost:3000"
+  //URLhttp: string = "http://10.0.2.2:3000"
   constructor(private http: HttpClient) { }
   
   getalumnos(): Observable<User[]>{
@@ -33,17 +34,17 @@ export class AlumnosService {
   registrarasignatura(asignatura: Course): Observable<any>{
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post("http://localhost:3000/course/add", asignatura, {headers});
+    return this.http.post(this.URLhttp + "/course/add", asignatura, {headers});
   }
 
   modificaralumno(alumno: User): Observable<any>{
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers});
+    return this.http.put(this.URLhttp + "/user/update/" + alumno._id, alumno, {headers});
   }
 
   deletealumno(alumnoId: string): Observable<any>{
-    return this.http.delete<any>('http://localhost:3000/user/delete/' + alumnoId);
+    return this.http.delete<any>(this.URLhttp + '/user/delete/' + alumnoId);
   }
 
   addasignatura(asignaturaId: string, alumno: User): Observable<any>{
@@ -56,7 +57,7 @@ export class AlumnosService {
     })
 
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.put("http://localhost:3000/user/update/" + alumno._id, alumno, {headers});
+    return this.http.put(this.URLhttp + "/user/update/" + alumno._id, alumno, {headers});
   }
 
   deleteasignatura(alumno: User, cursoId: string): Observable<any>{
