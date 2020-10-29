@@ -12,8 +12,16 @@ Cuando se descarga u Proyecto hay que instalar las dependencias
 
 Comandos en el Proyecto
 
+Ionic
 - ionic serve (Ejecutar el proyecto y verlo en la web)
 - ionic generate (Crear nuevas páginas, nuevas clases, nuevos servicios...)
+
+Backend 
+- npm run dev
+
+SocketServer (dentro del Backend)
+- cd src
+- node index.js
 
 Exportar a Android
 
